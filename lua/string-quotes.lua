@@ -1,13 +1,13 @@
 local M = {}
 
 function M.setup(opts)
-	local config = require("config")
+	local config = require("string-quotes.config")
 	local options = vim.tbl_extend("force", config.options, opts or {})
 	if not options.disabled then
 		return
 	end
 
-	local actions = require("actions")
+	local actions = require("string-quotes.actions")
 	local null_ls = require("null-ls")
 
 	null_ls.register({
