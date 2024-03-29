@@ -3,6 +3,7 @@ local C = {}
 C.options = {
   disabled = false,
   filetypes = {
+    "lua",
     "html",
     "typescript",
     "typescript.tsx",

@@ -12,7 +12,7 @@ local get_action = function(node, action, quote)
   return {
     title = "Replace with " .. action,
     action = function()
-      local start_row, start_col, end_row, end_col = node:range()
+      local start_row, start_col, _, end_col = node:range()
       if node:type() == "template_string" then
         utils.replace_string_with(start_row, start_col, end_col, quote)
       else
@@ -24,12 +24,19 @@ end
 
 local M = {}
 
-function M.switch_string()
+function M.switch_string(ctx)
   local node = utils.get_cusor_node()
   if not node then
+    -- vim.notify("no node under cursor")
     return
   end
-  -- vim.print("switch_string:type", node:type())
+  -- vim.notify("switch_string:type " .. node:type())
+  if ctx.ft == "lua" and vim.tbl_contains({ "string", "string_content" }, node:type()) then
+    return {
+      get_action(node, "single quotes", QUOTES.SINGLE),
+      get_action(node, "double quotes", QUOTES.DOUBLE),
+    }
+  end
   if vim.tbl_contains(ts_types, node:type()) then
     if node:type() == "template_string" then
       return {

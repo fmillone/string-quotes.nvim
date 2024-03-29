@@ -11,8 +11,9 @@ function M.setup(opts)
   local null_ls = require("null-ls")
 
   null_ls.register({
+    name = "string-quotes",
     method = null_ls.methods.CODE_ACTION,
-    filetypes = config.options.filetypes,
+    filetypes = options.filetypes,
     generator = {
       fn = actions.switch_string,
     },
